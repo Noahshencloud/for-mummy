@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给妈妈的惊喜</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #000;
+            touch-action: manipulation;
+        }
+        #canvas { 
+            display: block; 
+            width: 100vw; 
+            height: 100vh; 
+        }
+        .click-hint {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: "SimHei", sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="click-hint">点击屏幕有惊喜 ✨</div>
+
+    <script>
+        // 初始化画布
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 爱心参数
+        const hearts = [];
+        const colors = ["#FF3366", "#FF66CC", "#FF99CC", "#FF0066"];
+
+        // 绘制爱心函数
+        function drawHeart(x, y, size, color) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(
+                x - size/2, y - size/2,
+                x - size, y + size/3,
+                x, y + size
+            );
+            ctx.bezierCurveTo(
+                x + size, y + size/3,
+                x + size/2, y - size/2,
+                x, y
+            );
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // 点击事件
+        canvas.addEventListener("click", (e) => {
+            // 清屏
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 显示文字
+            ctx.font = "bold 30px SimHei";
+            ctx.fillStyle = "#FF3366";
+            ctx.textAlign = "center";
+            ctx.fillText("母亲节快乐！", canvas.width/2, 100);
+            ctx.font = "24px SimHei";
+            ctx.fillText("祝妈妈永远年轻健康", canvas.width/2, 150);
+            
+            // 生成爱心雨
+            for (let i = 0; i < 50; i++) {
+                hearts.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 20 + 10,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 2 + 1
+                });
+            }
+        });
+
+        // 动画循环
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            hearts.forEach((heart, index) => {
+                heart.y += heart.speed;
+                if (heart.y > canvas.height) {
+                    heart.y = -20;
+                }
+                drawHeart(heart.x, heart.y, heart.size, heart.color);
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

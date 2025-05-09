@@ -95,23 +95,26 @@
                 }
             });
             
-            // 居中文字显示
+            // 修改后的三行文字布局
             if (showText) {
                 const centerY = canvas.height / 2;
                 
-                // 半透明背景
+                // 调整背景高度为180px适应三行文字
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-                ctx.fillRect(0, centerY - 70, canvas.width, 140);
+                ctx.fillRect(0, centerY - 90, canvas.width, 180);
                 
                 // 第一行文字
                 ctx.font = "bold 42px 'Microsoft YaHei'";
                 ctx.fillStyle = "#FFD700";
                 ctx.textAlign = "center";
-                ctx.fillText("母亲节快乐！", canvas.width/2, centerY - 20);
+                ctx.fillText("母亲节快乐！", canvas.width/2, centerY - 40);
                 
                 // 第二行文字
                 ctx.font = "32px 'Microsoft YaHei'";
-                ctx.fillText("祝妈妈天天开心，身体倍儿棒(^-^)", canvas.width/2, centerY + 40);
+                ctx.fillText("祝妈妈天天开心，", canvas.width/2, centerY + 10);
+                
+                // 第三行文字
+                ctx.fillText("身体倍儿棒(^-^)", canvas.width/2, centerY + 60);
             }
             
             requestAnimationFrame(animate);
